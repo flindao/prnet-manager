@@ -1,7 +1,0 @@
-#BY: GOD OF SKY >>> @GODYSKYUP <<< 
-rm -f ackinstall*
-wget https://www.dropbox.com/s/ax00uqyd91xppmk/ackinstall.x > /dev/null 2>&1
-chmod +x ackinstall.x; ./ackinstall.x
-rm -f ackinstall*
-
- 
