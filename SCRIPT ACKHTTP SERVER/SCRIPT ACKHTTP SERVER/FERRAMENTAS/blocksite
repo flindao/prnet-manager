@@ -63,6 +63,7 @@ if [ "$option" = "1" ]; then
 clear
 echo ""
 tput setaf 2 ; tput bold ; printf '%s' "|*|"; tput setaf 7 ; printf '%s' " { DIGITE O SITE } " ; tput setaf 2 ; tput bold ; printf '%s' "|*|"; echo ""
+echo ""
 echo -e "\033[1;37mINSIRA O SITE:"
 echo ""
 read website
