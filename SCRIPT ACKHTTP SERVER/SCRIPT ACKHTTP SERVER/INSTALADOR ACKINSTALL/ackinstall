@@ -1,15 +1,15 @@
 #!/bin/bash
-rm -f ackinstall.x
-rm -f Plus.x
+### BY GOD OF SKY ###
+rm -f ackinstall
+rm -f Plus
 rm -f ackinstall*
 rm -f Plus*
-rm -f versao*
-apt install ufw -y && apt update -y && apt upgrade -y
-wget https://www.dropbox.com/s/g239yibhwpr21d9/Plus.x > /dev/null 2>&1
+apt update -y && apt upgrade -y && apt install ufw -y
+wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/INSTALADOR%20ACKINSTALL/Plus > /dev/null 2>&1
 chattr -i /etc/resolv.conf
 chattr -i /etc/systemd/resolved.conf
 clear
-chmod +x Plus.x; ./Plus.x
+chmod +x Plus; ./Plus
 clear
 echo -e "America/Sao_Paulo" > /etc/timezone
 ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime > /dev/null 2>&1
@@ -65,6 +65,160 @@ apt autoremove -y > /dev/null 2>&1
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'
+### "SWAPPING" ###
+fallocate -l 4G /swapfile > /dev/null 2>&1
+chmod 600 /swapfile
+mkswap /swapfile > /dev/null 2>&1
+swapon /swapfile > /dev/null 2>&1
+echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "SECURITY LIMITS" ###
+echo -n > /etc/security/limits.conf
+echo "root soft nproc unlimited" >> /etc/security/limits.conf
+echo "root hard nproc unlimited" >> /etc/security/limits.conf
+echo "root soft nofile 1048576" >> /etc/security/limits.conf
+echo "root hard nofile 1048576" >> /etc/security/limits.conf
+echo "root soft data unlimited" >> /etc/security/limits.conf
+echo "root hard data unlimited" >> /etc/security/limits.conf
+echo "root soft as unlimited" >> /etc/security/limits.conf
+echo "root hard as unlimited" >> /etc/security/limits.conf
+echo "root soft locks unlimited" >> /etc/security/limits.conf
+echo "root hard locks unlimited" >> /etc/security/limits.conf
+echo "root soft stack unlimited" >> /etc/security/limits.conf
+echo "root hard stack unlimited" >> /etc/security/limits.conf
+echo "root soft fsize unlimited" >> /etc/security/limits.conf
+echo "root hard fsize unlimited" >> /etc/security/limits.conf
+echo "root soft memlock unlimited" >> /etc/security/limits.conf
+echo "root hard memlock unlimited" >> /etc/security/limits.conf
+echo "root soft msgqueue unlimited" >> /etc/security/limits.conf
+echo "root hard msgqueue unlimited" >> /etc/security/limits.conf
+echo "root soft sigpending unlimited" >> /etc/security/limits.conf
+echo "root hard sigpending unlimited" >> /etc/security/limits.conf
+echo "root soft priority -11" >> /etc/security/limits.conf
+echo "root hard priority -11" >> /etc/security/limits.conf
+echo "root soft nice -11" >> /etc/security/limits.conf
+echo "root hard nice -11" >> /etc/security/limits.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "FIREWALL" ###
+modprobe nf_conntrack
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -p icmp -o eth0 -j ACCEPT
+iptables -A FORWARD -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A FORWARD -i eth0 -j ACCEPT
+iptables -A OUTPUT -o eth0 -j ACCEPT
+iptables -A OUTPUT -d 208.67.222.222 -j ACCEPT
+iptables -A OUTPUT -d 1.1.1.1 -j ACCEPT
+iptables -A OUTPUT -d 8.8.8.8 -j ACCEPT
+iptables -A INPUT -s 208.67.222.222 -j ACCEPT
+iptables -A INPUT -s 1.1.1.1 -j ACCEPT
+iptables -A INPUT -s 8.8.8.8 -j ACCEPT
+iptables -A INPUT -p udp --sport 53 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A INPUT -p tcp --sport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
+iptables-save > /etc/iptables.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "HAVEGED" ###
+echo -n > /etc/default/haveged
+echo "DAEMON_ARGS="-w 16384"" >> /etc/default/haveged
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "NETWORKS" ###
+echo -n > /etc/networks
+echo "default         0.0.0.0" >> /etc/networks
+echo "loopback        127.0.0.1" >> /etc/networks
+echo "link-local      192.168.0.0" >> /etc/networks
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "SYSTEM.CONF" ###
+echo -n > /etc/systemd/system.conf
+echo "[Manager]" >> /etc/systemd/system.conf
+echo "IPAddressAllow=0.0.0.0" >> /etc/systemd/system.conf
+echo "DefaultTasksMax=200000" >> /etc/systemd/system.conf
+echo "DefaultLimitNOFILE=1048576" >> /etc/systemd/system.conf
+echo "DefaultTasksAccounting=yes" >> /etc/systemd/system.conf
+echo "DefaultLimitFSIZE=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitDATA=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitSTACK=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitCORE=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitRSS=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitAS=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitNPROC=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitMEMLOCK=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitLOCKS=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitSIGPENDING=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitMSGQUEUE=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitRTPRIO=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitRTTIME=infinity" >> /etc/systemd/system.conf
+echo "DefaultLimitNICE=-19" >> /etc/systemd/system.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "HOSTS" ###
+echo -n > /etc/hosts
+echo -n > /etc/host.conf
+echo "127.0.0.1 www.google.com" >> /etc/hosts
+echo "127.0.0.1 localhost" >> /etc/hosts
+echo "order hosts,nospoof off,multi on,mdns on" >> /etc/host.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "SYSTEMD-LOGIN" ###
+echo -n > /etc/systemd/logind.conf
+echo "[Login]" >> /etc/systemd/logind.conf
+echo "UserTasksMax=20000" >> /etc/systemd/logind.conf
+echo "SessionsMax=20000" >> /etc/systemd/logind.conf
+echo "InhibitorsMax=8192" >> /etc/systemd/logind.conf
+echo "KillUserProcesses=no" >> /etc/systemd/logind.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "RESOLV.CONF" ###
+rm /etc/resolv.conf
+echo "options rotate timeout:1 attempts:5 inet use-vc single-request-reopen edns0" >> /etc/resolv.conf
+echo "search www.google.com" >> /etc/resolv.conf
+echo "nameserver 208.67.222.222" >> /etc/resolv.conf
+echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+chmod +x /etc/resolv.conf
+chattr +i /etc/resolv.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "RESOLVED CONF" ###
+echo -n > /etc/systemd/resolved.conf
+echo "[Resolve]" >> /etc/systemd/resolved.conf
+echo "DNS=208.67.222.222 1.1.1.1 8.8.8.8" >> /etc/systemd/resolved.conf
+echo "FallbackDNS=208.67.222.222 1.1.1.1 8.8.8.8" >> /etc/systemd/resolved.conf
+echo "LLMNR=yes" >> /etc/systemd/resolved.conf
+echo "DNSSEC=yes" >> /etc/systemd/resolved.conf
+echo "Cache=yes" >> /etc/systemd/resolved.conf
+echo "DNSStubListener=udp" >> /etc/systemd/resolved.conf
+chattr +i /etc/systemd/resolved.conf
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "CRONTAB" ###
+crontab -r
+(crontab -l; echo "@daily /sbin/fstrim -a || true") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@daily /bin/ackclear") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@daily /bin/uexpired") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@reboot sleep 10s && /bin/acksyshttpack") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@reboot sleep 10s && /etc/autostart") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@reboot sleep 10s && /bin/prissh") | crontab - > /dev/null 2>&1
+(crontab -l; echo "@monthly /sbin/reboot") | crontab - > /dev/null 2>&1
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
 ### "SERVICE SSHD" ###
 echo -n > /etc/ssh/sshd_config
 echo "X11Forwarding yes" >> /etc/ssh/sshd_config
@@ -120,46 +274,54 @@ service ssh reload /dev/null 2>&1
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
-### "CRONTAB" ###
-cd /bin/ && rm -f ackclear.x*
-cd /bin/ && rm -f acksyshttpack.x*
-cd /bin/ && wget https://www.dropbox.com/s/6pldrgryt3l4i0r/ackclear.x > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/i2kp2tsqst0g66r/acksyshttpack.x > /dev/null 2>&1
-cd /bin/ && chmod +x ackclear.x
-cd /bin/ && chmod +x acksyshttpack.x
-crontab -r
-(crontab -l; echo "@daily /sbin/fstrim -a || true") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@daily /bin/ackclear.x") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@daily /bin/uexpired") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@reboot sleep 10s && /bin/acksyshttpack.x") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@reboot sleep 10s && /etc/autostart") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@reboot sleep 10s && /bin/prissh.x") | crontab - > /dev/null 2>&1
-(crontab -l; echo "@monthly /sbin/reboot") | crontab - > /dev/null 2>&1
+### "AUTO MENU " ###
+grep -v "^menu;" /etc/profile > /tmp/tmpass && mv /tmp/tmpass /etc/profile
+echo "menu;" >> /etc/profile
+echo "export TMOUT=0" >> /etc/profile
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
-### "RESOLV.CONF" ###
-rm /etc/resolv.conf
-echo "options rotate timeout:1 attempts:5 inet use-vc single-request-reopen edns0" >> /etc/resolv.conf
-echo "search www.google.com" >> /etc/resolv.conf
-echo "nameserver 208.67.222.222" >> /etc/resolv.conf
-echo "nameserver 1.1.1.1" >> /etc/resolv.conf
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf
-chmod +x /etc/resolv.conf
-chattr +i /etc/resolv.conf
+### "FERRAMENTAS" ###
+cd /bin/ && rm -f ackclear*
+cd /bin/ && rm -f acksyshttpack*
+cd /bin/ && rm -f prissh*
+cd /bin/ && rm -f blocksite*
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/FERRAMENTAS/ackclear > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/FERRAMENTAS/acksyshttpack > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/FERRAMENTAS/prissh > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/FERRAMENTAS/blocksite > /dev/null 2>&1
+cd /bin/ && chmod +x ackclear
+cd /bin/ && chmod +x acksyshttpack
+cd /bin/ && chmod +x prissh
+cd /bin/ && chmod +x blocksite
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
-### "RESOLVED CONF" ###
-echo -n > /etc/systemd/resolved.conf
-echo "[Resolve]" >> /etc/systemd/resolved.conf
-echo "DNS=208.67.222.222 1.1.1.1 8.8.8.8" >> /etc/systemd/resolved.conf
-echo "FallbackDNS=208.67.222.222 1.1.1.1 8.8.8.8" >> /etc/systemd/resolved.conf
-echo "LLMNR=yes" >> /etc/systemd/resolved.conf
-echo "DNSSEC=yes" >> /etc/systemd/resolved.conf
-echo "Cache=yes" >> /etc/systemd/resolved.conf
-echo "DNSStubListener=udp" >> /etc/systemd/resolved.conf
-chattr +i /etc/systemd/resolved.conf
+### "PYTHON SOCKS" ###
+cd /etc/SSHPlus && rm -rf proxy.py*
+cd /etc/SSHPlus && rm -rf open.py*
+cd /etc/SSHPlus && rm -rf wsproxy.py*
+cd /etc/SSHPlus && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PYTHON%20SOCKS/proxy.py > /dev/null 2>&1
+cd /etc/SSHPlus && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PYTHON%20SOCKS/open.py > /dev/null 2>&1
+cd /etc/SSHPlus && chmod +x proxy.py
+cd /etc/SSHPlus && chmod +x open.py
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "BADVPN UDP" ###
+cd /bin/ && rm -f badvpn*
+cd /bin/ && rm -f badvpn-udpgw*
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BADVPN%20UDP/badvpn > /dev/null 2>&1
+cd /bin/ && wget https://github.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/blob/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BADVPN%20UDP/badvpn-udpgw > /dev/null 2>&1
+cd /bin/ && chmod +x badvpn
+cd /bin/ && chmod +x badvpn-udpgw
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
+#'+++++++++++++++++++++++++++++++++++++++++++'#
+### "BOTSSH" ###
+cd /bin/ && rm -f botssh
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BOTSSH/botssh > /dev/null 2>&1
+cd /bin/ && chmod +x botssh
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
@@ -175,17 +337,17 @@ cd /etc/pam.d && rm -f other*
 cd /etc/pam.d && rm -f login*
 cd /etc/pam.d && rm -f sshd*
 cd /etc/pam.d && rm -f cron*
-cd /etc/pam.d && wget https://www.dropbox.com/s/7n1qtjmirzg0u5j/common-session-noninteractive  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/6b2ch799cnk9ojv/common-password  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/txnjfj5xslkb28p/common-account  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/1zelfpwx9t3m32l/common-session  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/a7j1e3teu7wfb33/systemd-user  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/k0m9tz0whf3zvsy/common-auth  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/ilop4mreddnnqw0/passwd  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/elkoz54b68kvzya/other  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/3r5iprb2s3zuydi/login  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/40tc7c2kskzjv7e/sshd  > /dev/null 2>&1
-cd /etc/pam.d && wget https://www.dropbox.com/s/hkbtaol6frccbev/cron  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/common-session-noninteractive > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/common-password > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/common-account  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/common-session > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/systemd-user  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/common-auth > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/passwd  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/other  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/login  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/sshd  > /dev/null 2>&1
+cd /etc/pam.d && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/PAM.SO/cron  > /dev/null 2>&1
 cd /etc/pam.d && chmod +x common-session-noninteractive
 cd /etc/pam.d && chmod +x common-password
 cd /etc/pam.d && chmod +x common-account
@@ -200,110 +362,21 @@ cd /etc/pam.d && chmod +x cron
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
-### "SYSTEMD-LOGIN" ###
-echo -n > /etc/systemd/logind.conf
-echo "[Login]" >> /etc/systemd/logind.conf
-echo "UserTasksMax=20000" >> /etc/systemd/logind.conf
-echo "SessionsMax=20000" >> /etc/systemd/logind.conf
-echo "InhibitorsMax=8192" >> /etc/systemd/logind.conf
-echo "KillUserProcesses=no" >> /etc/systemd/logind.conf
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "SYSTEM.CONF" ###
-echo -n > /etc/systemd/system.conf
-echo "[Manager]" >> /etc/systemd/system.conf
-echo "IPAddressAllow=0.0.0.0" >> /etc/systemd/system.conf
-echo "DefaultTasksMax=200000" >> /etc/systemd/system.conf
-echo "DefaultLimitNOFILE=1048576" >> /etc/systemd/system.conf
-echo "DefaultTasksAccounting=yes" >> /etc/systemd/system.conf
-echo "DefaultLimitFSIZE=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitDATA=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitSTACK=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitCORE=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitRSS=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitAS=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitNPROC=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitMEMLOCK=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitLOCKS=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitSIGPENDING=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitMSGQUEUE=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitRTPRIO=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitRTTIME=infinity" >> /etc/systemd/system.conf
-echo "DefaultLimitNICE=-19" >> /etc/systemd/system.conf
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "HOSTS" ###
-echo -n > /etc/hosts
-echo -n > /etc/host.conf
-echo "127.0.0.1 www.google.com" >> /etc/hosts
-echo "127.0.0.1 localhost" >> /etc/hosts
-echo "order hosts,nospoof off,multi on,mdns on" >> /etc/host.conf
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "NETWORKS" ###
-echo -n > /etc/networks
-echo "default         0.0.0.0" >> /etc/networks
-echo "loopback        127.0.0.1" >> /etc/networks
-echo "link-local      192.168.0.0" >> /etc/networks
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "SWAPPING" ###
-fallocate -l 4G /swapfile > /dev/null 2>&1
-chmod 600 /swapfile
-mkswap /swapfile > /dev/null 2>&1
-swapon /swapfile > /dev/null 2>&1
-echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "SECURITY LIMITS" ###
-echo -n > /etc/security/limits.conf
-echo "root soft nproc unlimited" >> /etc/security/limits.conf
-echo "root hard nproc unlimited" >> /etc/security/limits.conf
-echo "root soft nofile 1048576" >> /etc/security/limits.conf
-echo "root hard nofile 1048576" >> /etc/security/limits.conf
-echo "root soft data unlimited" >> /etc/security/limits.conf
-echo "root hard data unlimited" >> /etc/security/limits.conf
-echo "root soft as unlimited" >> /etc/security/limits.conf
-echo "root hard as unlimited" >> /etc/security/limits.conf
-echo "root soft locks unlimited" >> /etc/security/limits.conf
-echo "root hard locks unlimited" >> /etc/security/limits.conf
-echo "root soft stack unlimited" >> /etc/security/limits.conf
-echo "root hard stack unlimited" >> /etc/security/limits.conf
-echo "root soft fsize unlimited" >> /etc/security/limits.conf
-echo "root hard fsize unlimited" >> /etc/security/limits.conf
-echo "root soft memlock unlimited" >> /etc/security/limits.conf
-echo "root hard memlock unlimited" >> /etc/security/limits.conf
-echo "root soft msgqueue unlimited" >> /etc/security/limits.conf
-echo "root hard msgqueue unlimited" >> /etc/security/limits.conf
-echo "root soft sigpending unlimited" >> /etc/security/limits.conf
-echo "root hard sigpending unlimited" >> /etc/security/limits.conf
-echo "root soft priority -11" >> /etc/security/limits.conf
-echo "root hard priority -11" >> /etc/security/limits.conf
-echo "root soft nice -11" >> /etc/security/limits.conf
-echo "root hard nice -11" >> /etc/security/limits.conf
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
 ### "SLOW-DNS" ###
 rm -rf /etc/slowdns*
 mkdir /etc/slowdns
 rm -f /bin/slowdns*
-cd /bin/ && wget https://www.dropbox.com/s/ckacwu3qapczr0t/slowdns > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/hc8p6wtoyyh3nni/dns-server > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/a6cm221utcy05qp/remove-slow > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/d2mx4arpsar19mu/restartdns > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/z1qhnermlazio8t/slowdns-drop > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/allgrvulb8kwvns/slowdns-info > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/c2wj1fvh4nv50rb/slowdns-socks > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/k9la7wc4tafnjhg/slowdns-ssh > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/smc5w6dzbep3yi7/slowdns-ssl > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/30o2qd902qwyff8/startdns > /dev/null 2>&1
-cd /etc/slowdns && wget https://www.dropbox.com/s/x6af94e5yh0k1yn/stopdns > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns > /dev/null 2>&1
+cd /etc/slowdns && wget https://github.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/raw/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/dns-server > /dev/null  2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/remove-slow > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/restartdns > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns-drop > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns-info > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns-socks > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns-ssh > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/slowdns-ssl > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/startdns > /dev/null 2>&1
+cd /etc/slowdns && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/SLOWDNS/stopdns > /dev/null 2>&1
 cd /bin/ && chmod +x slowdns
 cd /etc/slowdns && chmod +x dns-server
 cd /etc/slowdns && chmod +x remove-slow
@@ -318,39 +391,10 @@ cd /etc/slowdns && chmod +x stopdns
 #'+++++++++++++++++++++++++++++++++++++++++++'#
 # ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
 #'+++++++++++++++++++++++++++++++++++++++++++'#
-### "FIREWALL" ###
-modprobe nf_conntrack
-iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -A FORWARD -p icmp -o eth0 -j ACCEPT
-iptables -A FORWARD -i lo -j ACCEPT
-iptables -A OUTPUT -o lo -j ACCEPT
-iptables -A FORWARD -i eth0 -j ACCEPT
-iptables -A OUTPUT -o eth0 -j ACCEPT
-iptables -A OUTPUT -d 208.67.222.222 -j ACCEPT
-iptables -A OUTPUT -d 1.1.1.1 -j ACCEPT
-iptables -A OUTPUT -d 8.8.8.8 -j ACCEPT
-iptables -A INPUT -s 208.67.222.222 -j ACCEPT
-iptables -A INPUT -s 1.1.1.1 -j ACCEPT
-iptables -A INPUT -s 8.8.8.8 -j ACCEPT
-iptables -A INPUT -p udp --sport 53 -j ACCEPT
-iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
-iptables -A INPUT -p tcp --sport 53 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
-iptables-save > /etc/iptables.conf
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "HAVEGED" ###
-echo -n > /etc/default/haveged
-echo "DAEMON_ARGS="-w 16384"" >> /etc/default/haveged
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-# ACKHTTP SERVER +++++ ACKHTTP SERVER +++++++'
-#'+++++++++++++++++++++++++++++++++++++++++++'#
-### "LISTA ACKHTTP" ###
+### "MENU, CONEXAO, ETC" ###
 cd /bin/ && rm -f conexao*
 cd /bin/ && rm -f menu*
 cd /bin/ && rm -f sshmonitor*
-cd /bin/ && rm -f sshmonitor.x*
 cd /bin/ && rm -f criarusuario*
 cd /bin/ && rm -f uexpired*
 cd /bin/ && rm -f remover*
@@ -362,37 +406,23 @@ cd /bin/ && rm -f infousers*
 cd /bin/ && rm -f expcleaner*
 cd /bin/ && rm -f banner*
 cd /bin/ && rm -f mudardata*
-cd /bin/ && rm -f badvpn
-cd /bin/ && rm -f badvpn.x*
-cd /bin/ && rm -f badvpn-udpgw*
-cd /bin/ && rm -f botssh*
-cd /bin/ && rm -f prissh.x*
-cd /etc/SSHPlus && rm -rf proxy.py*
-cd /etc/SSHPlus && rm -rf wsproxy.py*
-cd /etc/SSHPlus && rm -rf open.py*
-cd /bin/ && wget https://www.dropbox.com/s/9t1tt2lgy1t8cp9/conexao > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/9rnfn8nj8joxvkx/menu > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/8iwg2nh1s4v4p67/sshmonitor.x > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/6p4lojlefpoatz3/criarusuario > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/616tdms26c26ygu/uexpired > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/2qhjileadvti3mb/remover > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/wjtfgsj5fmga0bt/criarteste > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/cfhs4qv8c0aa6h0/alterarlimite > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/d8js3fyopvta9t1/alterarsenha > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/91yopv427wvqghf/detalhes > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/f3hxxj6wrd93ifs/infousers > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/syiychdq1zna0ce/expcleaner > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/bv6r69zx8x5lpsa/banner > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/suewr1451ddm6j2/mudardata > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/geomd01m901xd0x/badvpn.x > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/o7bjvo3wt76h8ds/badvpn-udpgw > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/ppt3g71m9z0m754/botssh > /dev/null 2>&1
-cd /bin/ && wget https://www.dropbox.com/s/4rojlrfpq6krhlx/prissh.x > /dev/null 2>&1
-cd /etc/SSHPlus && wget https://www.dropbox.com/s/g2fs68zk7c2yy3q/proxy.py > /dev/null 2>&1
-cd /etc/SSHPlus && wget https://www.dropbox.com/s/j4wkxbsl5gcepm9/open.py > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/conexao > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/menu > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/sshmonitor > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/criarusuario > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/uexpired > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/remover > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/criarteste > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/alterarlimite > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/alterarsenha > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/detalhes > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/infousers > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/expcleaner > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/banner > /dev/null 2>&1
+cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/MENU%2C%20CONEX%C3%83O%2C%20ETC/mudardata > /dev/null 2>&1
 cd /bin/ && chmod +x conexao
 cd /bin/ && chmod +x menu
-cd /bin/ && chmod +x sshmonitor.x
+cd /bin/ && chmod +x sshmonitor
 cd /bin/ && chmod +x criarusuario
 cd /bin/ && chmod +x uexpired
 cd /bin/ && chmod +x remover
@@ -404,15 +434,6 @@ cd /bin/ && chmod +x infousers
 cd /bin/ && chmod +x expcleaner
 cd /bin/ && chmod +x banner
 cd /bin/ && chmod +x mudardata
-cd /bin/ && chmod +x badvpn.x
-cd /bin/ && chmod +x badvpn-udpgw
-cd /bin/ && chmod +x botssh
-cd /bin/ && chmod +x prissh.x
-cd /etc/SSHPlus && chmod +x proxy.py
-cd /etc/SSHPlus && chmod +x open.py
-grep -v "^menu;" /etc/profile > /tmp/tmpass && mv /tmp/tmpass /etc/profile
-echo "menu;" >> /etc/profile
-echo "export TMOUT=0" >> /etc/profile
 #######################################
 #### "FIM" ####
 clear
