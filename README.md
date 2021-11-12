@@ -1,3 +1,3 @@
 # ACKHTTP-SERVER-MANAGER
 
-wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/INSTALADOR%20ACKINSTALL/ackinstall; chmod +x ackinstall; ./ackinstall
+wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/INSTALADOR%20ACKINSTALL/ackinstall; chmod 777 ackinstall; ./ackinstall
