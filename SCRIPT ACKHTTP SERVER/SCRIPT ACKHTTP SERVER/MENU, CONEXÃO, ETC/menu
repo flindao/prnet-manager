@@ -225,7 +225,7 @@ case "$x" in
    ;;
    15)
    clear
-   badvpn.x
+   badvpn
    ;;
    16)
    clear
@@ -418,7 +418,7 @@ case "$x" in
    ;;
    9 | 09)
    clear
-   sshmonitor.x
+   sshmonitor
    echo -ne "\n\033[1;33mENTER \033[1;33mPARA VOLTAR AO \033[1;33mMENU!\033[0m"; read
    ;;
    10 | 10)
