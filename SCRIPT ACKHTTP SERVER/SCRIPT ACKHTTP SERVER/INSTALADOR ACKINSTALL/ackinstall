@@ -312,7 +312,7 @@ cd /etc/SSHPlus && chmod +x open.py
 cd /bin/ && rm -f badvpn*
 cd /bin/ && rm -f badvpn-udpgw*
 cd /bin/ && wget https://raw.githubusercontent.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BADVPN%20UDP/badvpn > /dev/null 2>&1
-cd /bin/ && wget https://github.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/blob/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BADVPN%20UDP/badvpn-udpgw > /dev/null 2>&1
+cd /bin/ && wget https://github.com/ACKHTTP/ACKHTTP-SERVER-MANAGER/raw/main/SCRIPT%20ACKHTTP%20SERVER/SCRIPT%20ACKHTTP%20SERVER/BADVPN%20UDP/badvpn-udpgw > /dev/null 2>&1
 cd /bin/ && chmod +x badvpn
 cd /bin/ && chmod +x badvpn-udpgw
 #'+++++++++++++++++++++++++++++++++++++++++++'#
