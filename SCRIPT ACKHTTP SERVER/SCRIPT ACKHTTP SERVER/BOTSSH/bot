@@ -15,7 +15,7 @@ ajuda ()
     if [[ "${message_from_id[$id]}" = "$id_admin" ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>BEM VINDO(a) AO BOT ACK HTTP SERVER</b>\n"
+        env_msg+="<b>BEM VINDO(a) AO BOT GÊNIO HACKER MANAGER</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>Comandos Disponiveis</i>\n\n"
         env_msg+="[<b>01</b>] /criarusuario = Cria usuario\n"
@@ -41,7 +41,7 @@ ajuda ()
     elif [[ -d /etc/bot/revenda/${message_from_username} ]]; then
         local env_msg1
         env_msg1="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg1+="<b>BEM VINDO(a) AO BOT ACK HTTP SERVER</b>\n"
+        env_msg1+="<b>BEM VINDO(a) AO BOT GÊNIO HACKER MANAGER</b>\n"
         env_msg1+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg1+="⚠️ <i>Comandos Disponiveis</i>\n\n"
         env_msg1+="[<b>01</b>] /criarusuario = Cria usuario\n"
@@ -79,7 +79,7 @@ fun_revenda() {
     }
     local env_msg1
     env_msg1="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-    env_msg1+="<b>MENU REVENDA BOT ACK HTTP SERVER</b>\n"
+    env_msg1+="<b>MENU REVENDA BOT GÊNIO HACKER MANAGER</b>\n"
     env_msg1+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
     env_msg1+="⚠️ <i>Comandos Disponiveis</i>\n\n"
     env_msg1+="[<b>01</b>] /add_revenda = Cria\n"
@@ -587,10 +587,10 @@ payloads ()
 sobremim() {
     local msg
         msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        msg+="<b>🤖 BOT SSHPLUS MANAGER 🤖</b>\n"
+        msg+="<b>🤖 BOT GÊNIO HACKER MANAGER 🤖</b>\n"
         msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
-        msg+="<b>Desenvolvido por:</b> @crazy_vpn\n"
-        msg+="<b>Canal Oficial:</b> @SSHPLUS\n\n"
+        msg+="<b>Desenvolvido por:</b> @oogeniohacker\n"
+        msg+="<b>Canal Oficial:</b> @ogeniohacker\n\n"
         msg+="Fui criado com o propósito de fornecer informações e ferramentas para gestao de vps 🐧 GNU/Linux 🐧 com foco em uso VPN\n\n"
         msg+="<b>Menu:</b> /menu\n"
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -1856,10 +1856,10 @@ do
                     '👥 ADICIONAR REVENDEDOR 👥\n\nInforme o nome:')
                         echo "Nome: ${message_text[$id]}" > $CAD_ARQ
                         ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                            --text 'Informe o user dele [Ex: @ACKHTTP]:' \
+                            --text 'Informe o user dele [Ex: @OOGENIOHACKER]:' \
                             --reply_markup "$(ShellBot.ForceReply)"
                         ;;
-                    'Informe o user dele [Ex: ACKHTTP]:')
+                    'Informe o user dele [Ex: @OOGENIOHACKER]:')
                         _VAR1=$(echo -e ${message_text[$id]}| awk  -F '@' {'print $2'})
                         [[ -z $_VAR1 ]] && {
                             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
